@@ -34,23 +34,19 @@ public class MainApp extends Application {
         streakManager.login(); // Log the user in when the app starts
 
         MediaManager mediaManager = new MediaManager(primaryStage);
+        BackgroundMusicManager backgroundMusicManager = new BackgroundMusicManager();
         VideoLibraryManager videoLibraryManager = new VideoLibraryManager();
 
         sessionManager = new SessionManager(primaryStage, mediaManager, streakManager, this, videoLibraryManager);
         customizationManager = new CustomizationManager(sessionManager, primaryStage);
         themeCustomizationManager = new ThemeCustomizationManager(primaryStage, createStartupScene(primaryStage));
-        soundCustomizationManager = new SoundCustomizationManager(primaryStage, mediaManager);
+        soundCustomizationManager = new SoundCustomizationManager(primaryStage, backgroundMusicManager);
         videoLibraryScreen = new VideoLibraryScreen(primaryStage, videoLibraryManager, sessionManager);
         credits = new Credits(primaryStage);
 
         startupScene = createStartupScene(primaryStage);
         primaryStage.setScene(startupScene);
         primaryStage.show();
-    }
-
-    @Override
-    public void stop() {
-        streakManager.logout(); // Log the user out when the app stops
     }
 
     private Scene createStartupScene(Stage primaryStage) {

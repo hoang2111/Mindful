@@ -13,19 +13,18 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class SoundCustomizationManager {
-
     private Stage primaryStage;
-    private MediaManager mediaManager;
+    private BackgroundMusicManager backgroundMusicManager;
     private File selectedSoundFile;
 
     // Pre-selected sounds
     private ObservableList<String> preSelectedSounds = FXCollections.observableArrayList(
-            "Calm Ocean Waves", "Birds Chirping", "Rainfall", "Soft Piano", "Forest Ambience"
+            "White Noise", "Birds Chirping", "Rainfall", "Soft Piano", "Forest Ambience"
     );
 
-    public SoundCustomizationManager(Stage primaryStage, MediaManager mediaManager) {
+    public SoundCustomizationManager(Stage primaryStage, BackgroundMusicManager backgroundMusicManager) {
         this.primaryStage = primaryStage;
-        this.mediaManager = mediaManager;
+        this.backgroundMusicManager = backgroundMusicManager;
     }
 
     public void showSoundCustomizationScreen() {
@@ -43,8 +42,8 @@ public class SoundCustomizationManager {
             selectedSoundFile = fileChooser.showOpenDialog(primaryStage);
             if (selectedSoundFile != null) {
                 chosenSoundLabel.setText("Selected Sound: " + selectedSoundFile.getName());
-                mediaManager.setBackgroundMusic(selectedSoundFile.toURI().toString());
-                mediaManager.playBackgroundMusic();
+                backgroundMusicManager.setBackgroundMusic(selectedSoundFile.toURI().toString());
+                backgroundMusicManager.playBackgroundMusic();
             }
         });
 
@@ -54,8 +53,8 @@ public class SoundCustomizationManager {
                 chosenSoundLabel.setText("Selected Sound: " + selectedSound);
                 String soundUrl = getPreSelectedSoundUrl(selectedSound);
                 if (soundUrl != null) {
-                    mediaManager.setBackgroundMusic(soundUrl);
-                    mediaManager.playBackgroundMusic();
+                    backgroundMusicManager.setBackgroundMusic(soundUrl);
+                    backgroundMusicManager.playBackgroundMusic();
                 }
             }
         });

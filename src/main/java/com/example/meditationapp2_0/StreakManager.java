@@ -10,8 +10,8 @@ public class StreakManager {
     private static final String STREAK_FILE = "streak_data.txt";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private int currentStreak;
+    private LocalDateTime streakStartDateTime;
     private LocalDateTime lastLoginDateTime;
-    private LocalDateTime lastLogoutDateTime;
 
     public StreakManager() {
         checkAndCreateStreakFile();
@@ -39,50 +39,40 @@ public class StreakManager {
     private void loadStreakData() {
         try (BufferedReader reader = new BufferedReader(new FileReader(STREAK_FILE))) {
             currentStreak = Integer.parseInt(reader.readLine());
-            String lastLoginDateString = reader.readLine();
-            String lastLogoutDateString = reader.readLine();
-            lastLoginDateTime = (lastLoginDateString != null && !lastLoginDateString.isEmpty())
-                    ? LocalDateTime.parse(lastLoginDateString, DATE_TIME_FORMATTER)
+            String streakStartDateTimeString = reader.readLine();
+            String lastLoginDateTimeString = reader.readLine();
+            streakStartDateTime = (streakStartDateTimeString != null && !streakStartDateTimeString.isEmpty())
+                    ? LocalDateTime.parse(streakStartDateTimeString, DATE_TIME_FORMATTER)
                     : LocalDateTime.now().minusDays(1); // Default to 1 day ago
-            lastLogoutDateTime = (lastLogoutDateString != null && !lastLogoutDateString.isEmpty())
-                    ? LocalDateTime.parse(lastLogoutDateString, DATE_TIME_FORMATTER)
+            lastLoginDateTime = (lastLoginDateTimeString != null && !lastLoginDateTimeString.isEmpty())
+                    ? LocalDateTime.parse(lastLoginDateTimeString, DATE_TIME_FORMATTER)
                     : LocalDateTime.now().minusDays(1); // Default to 1 day ago
         } catch (IOException | DateTimeParseException | NumberFormatException e) {
             currentStreak = 0;
-            lastLoginDateTime = LocalDateTime.now().minusDays(1);  // Default to 1 day ago
-            lastLogoutDateTime = LocalDateTime.now().minusDays(1); // Default to 1 day ago
+            streakStartDateTime = LocalDateTime.now().minusDays(1);  // Default to 1 day ago
+            lastLoginDateTime = LocalDateTime.now().minusDays(1); // Default to 1 day ago
         }
     }
 
     public void login() {
-        lastLoginDateTime = LocalDateTime.now();
-        System.out.println("Logged in at: " + lastLoginDateTime.format(DATE_TIME_FORMATTER));
-        updateStreak();
-    }
-
-    public void logout() {
         LocalDateTime now = LocalDateTime.now();
-        lastLogoutDateTime = now;
-        System.out.println("Attempting to logout at: " + now.format(DATE_TIME_FORMATTER));
-        saveStreakData();
-    }
-
-    private void updateStreak() {
-        LocalDateTime now = LocalDateTime.now();
-        if (lastLogoutDateTime != null) {
-            if (now.isAfter(lastLogoutDateTime.plusDays(1))) {
-                if (now.isBefore(lastLogoutDateTime.plusDays(2))) {
+        if (lastLoginDateTime != null) {
+            if (now.toLocalDate().isAfter(lastLoginDateTime.toLocalDate())) {
+                if (now.toLocalDate().isEqual(lastLoginDateTime.toLocalDate().plusDays(1))) {
                     currentStreak++;
                     System.out.println("Streak incremented to: " + currentStreak);
                 } else {
                     currentStreak = 1;
+                    streakStartDateTime = now;
                     System.out.println("Streak reset to: " + currentStreak);
                 }
             }
         } else {
             currentStreak = 1;
-            System.out.println("Streak reset to: " + currentStreak);
+            streakStartDateTime = now;
+            System.out.println("Streak started at: " + streakStartDateTime.format(DATE_TIME_FORMATTER));
         }
+        lastLoginDateTime = now;
         saveStreakData();
     }
 
@@ -90,12 +80,12 @@ public class StreakManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(STREAK_FILE))) {
             writer.write(String.valueOf(currentStreak));
             writer.newLine();
-            writer.write(lastLoginDateTime.format(DATE_TIME_FORMATTER));
+            writer.write(streakStartDateTime.format(DATE_TIME_FORMATTER));
             writer.newLine();
-            writer.write(lastLogoutDateTime.format(DATE_TIME_FORMATTER));
+            writer.write(lastLoginDateTime.format(DATE_TIME_FORMATTER));
             System.out.println("Streak data saved. Current streak: " + currentStreak);
+            System.out.println("Streak start time: " + streakStartDateTime.format(DATE_TIME_FORMATTER));
             System.out.println("Last login time: " + lastLoginDateTime.format(DATE_TIME_FORMATTER));
-            System.out.println("Last logout time: " + lastLogoutDateTime.format(DATE_TIME_FORMATTER));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,5 +93,13 @@ public class StreakManager {
 
     public int getCurrentStreak() {
         return currentStreak;
+    }
+
+    public LocalDateTime getStreakStartDateTime() {
+        return streakStartDateTime;
+    }
+
+    public LocalDateTime getLastLoginDateTime() {
+        return lastLoginDateTime;
     }
 }
