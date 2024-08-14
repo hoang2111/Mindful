@@ -12,7 +12,7 @@ public class BackgroundMusicManager {
         }
         Media media = new Media(musicFileUri);
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(0.3); // Set volume to 50%
+        mediaPlayer.setVolume(0.6); // Set volume to 30%
     }
 
     public void playBackgroundMusic() {
@@ -21,9 +21,21 @@ public class BackgroundMusicManager {
         }
     }
 
+    public void pauseBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+    }
+
     public void stopBackgroundMusic() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+        }
+    }
+
+    public void continueBackgroundMusic() {
+        if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+            mediaPlayer.play();
         }
     }
 }

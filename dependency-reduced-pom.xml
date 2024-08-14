@@ -44,6 +44,18 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -88,6 +100,7 @@
     <maven.compiler.target>22</maven.compiler.target>
     <maven.compiler.source>22</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <javafx.version>22-ea+11</javafx.version>
     <junit.version>5.10.0</junit.version>
   </properties>
 </project>

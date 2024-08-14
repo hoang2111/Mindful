@@ -22,6 +22,15 @@ public class MainApp extends Application {
     private StreakManager streakManager;
     private Credits credits;
 
+    private Button meditateButton;
+    private Button eyeExerciseButton;
+    private Button customizeButton;
+    private Button lightExerciseButton;
+    private Button soundCustomizeButton;
+    private Button videoLibraryButton;
+    private Button creditsButton;
+    private Button stopButton;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -52,28 +61,28 @@ public class MainApp extends Application {
     private Scene createStartupScene(Stage primaryStage) {
         VBox startupLayout = new VBox(10);
         startupLayout.setAlignment(Pos.CENTER);
-        Button meditateButton = new Button("Meditate");
-        Button eyeExerciseButton = new Button("Eye Exercise");
-        Button customizeButton = new Button("Settings");
-        Button themeCustomizeButton = new Button("Customize Theme");
-        Button soundCustomizeButton = new Button("Customize Sound");
-        //Button videoLibraryButton = new Button("Video Library");
-        Button creditsButton = new Button("Credits");
-        Button stopButton = new Button("Stop");
 
-        meditateButton.setOnAction(e -> sessionManager.startSession("Meditation"));
-        eyeExerciseButton.setOnAction(e -> sessionManager.startSession("Eye Exercise"));
-        customizeButton.setOnAction(e -> customizationManager.showCustomizationScreen());
-        themeCustomizeButton.setOnAction(e -> themeCustomizationManager.showThemeCustomizationScreen());
-        soundCustomizeButton.setOnAction(e -> soundCustomizationManager.showSoundCustomizationScreen());
-        //videoLibraryButton.setOnAction(e -> videoLibraryScreen.showVideoLibraryScreen());
-        creditsButton.setOnAction(e -> credits.showCreditsScreen());
-        stopButton.setOnAction(e -> Platform.exit()); // Properly exit the application
+        meditateButton = new Button("Meditate");
+        eyeExerciseButton = new Button("Eye Exercise");
+        customizeButton = new Button("Settings");
+        lightExerciseButton = new Button("Light Exercise");
+        soundCustomizeButton = new Button("Customize Sound");
+        videoLibraryButton = new Button("Video Library");
+        creditsButton = new Button("Credits");
+        stopButton = new Button("Stop");
+
+        meditateButton.setOnAction(_ -> sessionManager.startSession("Meditation"));
+        lightExerciseButton.setOnAction(_ -> sessionManager.startSession("Light Exercise"));
+        eyeExerciseButton.setOnAction(_ -> sessionManager.startSession("Eye Exercise"));
+        customizeButton.setOnAction(_ -> customizationManager.showCustomizationScreen());
+        soundCustomizeButton.setOnAction(_ -> soundCustomizationManager.showSoundCustomizationScreen());
+        videoLibraryButton.setOnAction(e -> videoLibraryScreen.showVideoLibraryScreen());
+        creditsButton.setOnAction(_ -> credits.showCreditsScreen());
+        stopButton.setOnAction(_ -> Platform.exit()); // Properly exit the application
 
         HBox buttonLayout = new HBox(10);
         buttonLayout.setAlignment(Pos.CENTER);
-        //buttonLayout.getChildren().addAll(meditateButton, eyeExerciseButton, customizeButton, themeCustomizeButton, soundCustomizeButton, videoLibraryButton, creditsButton, stopButton);
-        buttonLayout.getChildren().addAll(meditateButton, eyeExerciseButton, customizeButton, themeCustomizeButton, soundCustomizeButton, creditsButton, stopButton);
+        buttonLayout.getChildren().addAll(meditateButton, eyeExerciseButton, lightExerciseButton, customizeButton, soundCustomizeButton, videoLibraryButton, creditsButton, stopButton);
         buttonLayout.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(2))));
         buttonLayout.setPadding(new Insets(10));
         startupLayout.getChildren().add(buttonLayout);
@@ -92,5 +101,22 @@ public class MainApp extends Application {
 
     public static Scene getStartupScene() {
         return startupScene;
+    }
+
+    public void disableAllButtonsExceptSoundAndStop() {
+        meditateButton.setDisable(true);
+        eyeExerciseButton.setDisable(true);
+        customizeButton.setDisable(true);
+        lightExerciseButton.setDisable(true);
+        videoLibraryButton.setDisable(true);
+        creditsButton.setDisable(true);
+    }
+    public void enableAllButtonsExceptSoundAndStop() {
+        meditateButton.setDisable(false);
+        eyeExerciseButton.setDisable(false);
+        customizeButton.setDisable(false);
+        lightExerciseButton.setDisable(false);
+        videoLibraryButton.setDisable(false);
+        creditsButton.setDisable(false);
     }
 }

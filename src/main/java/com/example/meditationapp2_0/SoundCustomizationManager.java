@@ -34,6 +34,8 @@ public class SoundCustomizationManager {
         Button preSelectedSoundButton = new Button("Choose Pre-Selected Sound");
         ChoiceBox<String> preSelectedSoundChoiceBox = new ChoiceBox<>(preSelectedSounds);
         preSelectedSoundChoiceBox.setValue("Select Pre-Selected Sound");
+        Button stopButton = new Button("Stop");
+        Button continueButton = new Button("Continue");
         Button backButton = new Button("Back");
 
         chooseSoundButton.setOnAction(e -> {
@@ -59,9 +61,12 @@ public class SoundCustomizationManager {
             }
         });
 
+        stopButton.setOnAction(e -> backgroundMusicManager.pauseBackgroundMusic());
+        continueButton.setOnAction(e -> backgroundMusicManager.playBackgroundMusic());
+
         backButton.setOnAction(e -> primaryStage.setScene(MainApp.getStartupScene()));
 
-        layout.getChildren().addAll(chooseSoundButton, chosenSoundLabel, preSelectedSoundChoiceBox, preSelectedSoundButton, backButton);
+        layout.getChildren().addAll(chooseSoundButton, chosenSoundLabel, preSelectedSoundChoiceBox, preSelectedSoundButton, stopButton, continueButton, backButton);
 
         Scene scene = new Scene(layout, 800, 500);
         primaryStage.setScene(scene);
@@ -70,15 +75,15 @@ public class SoundCustomizationManager {
     private String getPreSelectedSoundUrl(String soundName) {
         switch (soundName) {
             case "White Noise":
-                return "https://ia801909.us.archive.org/26/items/y-2mate.com-white-noise-black-screen-no-ads-1-hour/y2mate.com%20-%20White%20Noise%20%20Black%20Screen%20%20No%20ads%20%201%20hour.mp3";
+                return "https://od.lk/s/NDhfNTkwMjE1MDdf/y2mate.com%20-%20White%20Noise%20%20Black%20Screen%20%20No%20ads%20%201%20hour.mp3";
             case "Birds Chirping":
-                return "https://ia800600.us.archive.org/25/items/y-2mate.com-bird-sounds-spectacular-morning-bird-sound/y2mate.com%20-%20Bird%20Sounds%20Spectacular%20%20Morning%20Bird%20Sound.mp3";
+                return "https://od.lk/s/NDhfNTkwMjE0Njdf/y2mate.com%20-%20Bird%20Sounds%20Spectacular%20%20Morning%20Bird%20Sound.mp3";
             case "Rainfall":
-                return "https://ia801907.us.archive.org/8/items/y-2mate.com-nature-sounds-rain-sounds-one-hour-for-sleeping-sleep-aid-for-everybody/y2mate.com%20-%20Nature%20Sounds%20Rain%20Sounds%20One%20Hour%20for%20Sleeping%20Sleep%20Aid%20for%20Everybody.mp3";
+                return "https://od.lk/s/NDhfNTkwMjE0ODdf/y2mate.com%20-%20Nature%20Sounds%20Rain%20Sounds%20One%20Hour%20for%20Sleeping%20Sleep%20Aid%20for%20Everybody.mp3";
             case "Soft Piano":
-                return "https://ia600601.us.archive.org/2/items/y-2mate.com-classical-music-for-studying-working-focusing-concentrating-1-hour/y2mate.com%20-%20Classical%20Music%20for%20Studying%20%20Working%20%C2%A0Focusing%20%20Concentrating%20%C2%A01%20Hour.mp3";
+                return "https://od.lk/s/NDhfNTkwMjE0ODBf/y2mate.com%20-%20Classical%20Music%20for%20Studying%20%20Working%20%C2%A0Focusing%20%20Concentrating%20%C2%A01%20Hour.mp3";
             case "Forest Ambience":
-                return "https://ia904506.us.archive.org/19/items/y-2mate.com-3-d-asmr-amazing-forest-sounds-binaural-asmr-1-hour-relaxing-studying/y2mate.com%20-%203D%20ASMR%20Amazing%20Forest%20Sounds%20Binaural%20ASMR%20%201%20Hour%20%20%20Relaxing%20%20Studying.mp3";
+                return "https://od.lk/s/NDhfNTkwMjE0NTRf/y2mate.com%20-%203D%20ASMR%20Amazing%20Forest%20Sounds%20Binaural%20ASMR%20%201%20Hour%20%20%20Relaxing%20%20Studying.mp3";
             default:
                 return null;
         }

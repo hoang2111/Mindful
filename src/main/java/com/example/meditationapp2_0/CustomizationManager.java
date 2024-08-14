@@ -8,8 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class CustomizationManager {
-    private SessionManager sessionManager;
-    private Stage primaryStage;
+    private final SessionManager sessionManager;
+    private final Stage primaryStage;
 
     public CustomizationManager(SessionManager sessionManager, Stage primaryStage) {
         this.sessionManager = sessionManager;
